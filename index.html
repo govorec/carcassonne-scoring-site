@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Carcassonne Scoring — Real-time point counter</title>
+<meta name="description" content="Track your Carcassonne scores in real-time. Up to 9 players, game history, random first-player picker. 100% offline, no ads. For iPhone & iPad.">
+<link rel="icon" href="assets/favicon.png">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style data-purpose="custom-theme">
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+  body { font-family: 'Outfit', sans-serif; background-color: #0D0D0D; color: #F3F4F6; }
+  .bg-dark-surface { background-color: #1E1E1E; }
+  .border-gold { border-color: rgba(250, 204, 21, 0.2); }
+  .border-gold-hover:hover { border-color: rgba(250, 204, 21, 0.6); }
+  .hero-bg { background-image: url('assets/bg.jpg'); background-size: cover; background-position: center; }
+  .lang-link { cursor: pointer; transition: color .2s; }
+  .lang-link:hover { color: #facc15; }
+  .lang-link.active { color: #facc15; font-weight: 600; }
+</style>
+</head>
+<body class="antialiased selection:bg-yellow-500 selection:text-black">
+
+<!-- BEGIN: MainHeader (brand name deliberately NOT localized) -->
+<header class="sticky top-0 z-50 backdrop-blur-md bg-[#0D0D0D]/80 border-b border-neutral-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+  <div class="flex items-center space-x-3">
+    <img alt="Carcassonne Scoring icon" class="w-10 h-10 rounded-xl shadow-md border border-yellow-500/30" src="assets/icon.png"/>
+    <span class="font-bold text-lg sm:text-xl tracking-tight text-white">Carcassonne Scoring</span>
+  </div>
+  <nav id="langNav" class="flex items-center flex-wrap justify-end gap-x-2 gap-y-1 text-xs sm:text-sm text-neutral-400" aria-label="Language">
+    <span class="lang-link" data-lang="en">EN</span><span>/</span>
+    <span class="lang-link" data-lang="de">DE</span><span>/</span>
+    <span class="lang-link" data-lang="fr">FR</span><span>/</span>
+    <span class="lang-link" data-lang="es">ES</span><span>/</span>
+    <span class="lang-link" data-lang="uk">UK</span><span>/</span>
+    <span class="lang-link" data-lang="ru">RU</span><span>/</span>
+    <span class="lang-link" data-lang="zh">中文</span><span>/</span>
+    <span class="lang-link" data-lang="ja">日本語</span>
+  </nav>
+</div>
+</header>
+
+<main>
+<!-- BEGIN: HeroSection -->
+<section class="relative hero-bg py-24 lg:py-32 flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-b from-[#0D0D0D]/90 via-[#0D0D0D]/70 to-[#0D0D0D]"></div>
+<div class="relative max-w-4xl mx-auto px-4 sm:px-6 text-center z-10 flex flex-col items-center">
+  <div class="mb-8 relative group">
+    <div class="absolute -inset-1 bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-3xl blur opacity-30 group-hover:opacity-75 transition duration-1000"></div>
+    <img alt="App icon" class="relative w-28 h-28 sm:w-36 sm:h-36 rounded-2xl shadow-2xl border-2 border-yellow-500/40 object-cover" src="assets/icon.png"/>
+  </div>
+  <h1 id="heroTitle" class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6"></h1>
+  <p class="text-lg sm:text-xl text-neutral-300 max-w-2xl mb-10 leading-relaxed font-light" data-i18n="tagline"></p>
+  <a class="inline-block transition-transform hover:scale-105 active:scale-95 duration-200" href="https://apps.apple.com/app/id6763508490" aria-label="Download on the App Store">
+    <img class="h-14 sm:h-16 w-auto" src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+  </a>
+</div>
+</section>
+
+<!-- BEGIN: FeaturesSection -->
+<section class="py-20 bg-[#0D0D0D]">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center mb-16">
+    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white" data-i18n="features_h"></h2>
+    <div class="mt-2 h-1 w-16 bg-yellow-400 mx-auto rounded-full"></div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-dark-surface p-8 rounded-2xl border border-gold border-gold-hover transition-all duration-300 shadow-xl">
+      <h3 class="text-xl font-semibold text-yellow-400 mb-3" data-i18n="f1t"></h3><p class="text-neutral-400 leading-relaxed" data-i18n="f1d"></p>
+    </div>
+    <div class="bg-dark-surface p-8 rounded-2xl border border-gold border-gold-hover transition-all duration-300 shadow-xl">
+      <h3 class="text-xl font-semibold text-yellow-400 mb-3" data-i18n="f2t"></h3><p class="text-neutral-400 leading-relaxed" data-i18n="f2d"></p>
+    </div>
+    <div class="bg-dark-surface p-8 rounded-2xl border border-gold border-gold-hover transition-all duration-300 shadow-xl">
+      <h3 class="text-xl font-semibold text-yellow-400 mb-3" data-i18n="f3t"></h3><p class="text-neutral-400 leading-relaxed" data-i18n="f3d"></p>
+    </div>
+    <div class="bg-dark-surface p-8 rounded-2xl border border-gold border-gold-hover transition-all duration-300 shadow-xl">
+      <h3 class="text-xl font-semibold text-yellow-400 mb-3" data-i18n="f4t"></h3><p class="text-neutral-400 leading-relaxed" data-i18n="f4d"></p>
+    </div>
+    <div class="bg-dark-surface p-8 rounded-2xl border border-gold border-gold-hover transition-all duration-300 shadow-xl">
+      <h3 class="text-xl font-semibold text-yellow-400 mb-3" data-i18n="f5t"></h3><p class="text-neutral-400 leading-relaxed" data-i18n="f5d"></p>
+    </div>
+    <div class="bg-dark-surface p-8 rounded-2xl border border-gold border-gold-hover transition-all duration-300 shadow-xl">
+      <h3 class="text-xl font-semibold text-yellow-400 mb-3" data-i18n="f6t"></h3><p class="text-neutral-400 leading-relaxed" data-i18n="f6d"></p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- BEGIN: ScreenshotsSection (real app screenshots, localized set swapped with the language) -->
+<section class="py-20 bg-gradient-to-b from-[#0D0D0D] via-[#141414] to-[#0D0D0D]">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center mb-16">
+    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white" data-i18n="shots_h"></h2>
+    <div class="mt-2 h-1 w-16 bg-yellow-400 mx-auto rounded-full"></div>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
+    <div class="flex flex-col items-center group">
+      <h3 class="text-lg font-semibold text-white mb-4 text-center" data-i18n="shot1"></h3>
+      <div class="relative w-full max-w-[280px] rounded-3xl p-3 bg-neutral-900 border border-neutral-800 shadow-2xl group-hover:border-yellow-500/50 transition-all duration-300">
+        <img data-shot="01" alt="Scoring screen" class="rounded-2xl w-full object-cover shadow-inner" loading="lazy" src="assets/shots/en/01.png"/>
+      </div>
+    </div>
+    <div class="flex flex-col items-center group lg:translate-y-6">
+      <h3 class="text-lg font-semibold text-white mb-4 text-center" data-i18n="shot2"></h3>
+      <div class="relative w-full max-w-[280px] rounded-3xl p-3 bg-neutral-900 border border-neutral-800 shadow-2xl group-hover:border-yellow-500/50 transition-all duration-300">
+        <img data-shot="02" alt="Game setup screen" class="rounded-2xl w-full object-cover shadow-inner" loading="lazy" src="assets/shots/en/02.png"/>
+      </div>
+    </div>
+    <div class="flex flex-col items-center group">
+      <h3 class="text-lg font-semibold text-white mb-4 text-center" data-i18n="shot3"></h3>
+      <div class="relative w-full max-w-[280px] rounded-3xl p-3 bg-neutral-900 border border-neutral-800 shadow-2xl group-hover:border-yellow-500/50 transition-all duration-300">
+        <img data-shot="03" alt="Score history screen" class="rounded-2xl w-full object-cover shadow-inner" loading="lazy" src="assets/shots/en/03.png"/>
+      </div>
+    </div>
+    <div class="flex flex-col items-center group lg:translate-y-6">
+      <h3 class="text-lg font-semibold text-white mb-4 text-center" data-i18n="shot4"></h3>
+      <div class="relative w-full max-w-[280px] rounded-3xl p-3 bg-neutral-900 border border-neutral-800 shadow-2xl group-hover:border-yellow-500/50 transition-all duration-300">
+        <img data-shot="04" alt="Settings screen" class="rounded-2xl w-full object-cover shadow-inner" loading="lazy" src="assets/shots/en/04.png"/>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- BEGIN: SupportSection -->
+<section class="py-16 bg-[#0D0D0D]" id="support">
+<div class="max-w-4xl mx-auto px-4 text-center">
+  <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4" data-i18n="support_h"></h2>
+  <p class="text-neutral-300"><span data-i18n="support_p1"></span><a class="text-yellow-400 hover:underline font-medium" href="mailto:okdesign.dn@gmail.com">okdesign.dn@gmail.com</a><span data-i18n="support_p2"></span></p>
+</div>
+</section>
+
+<!-- BEGIN: PrivacySection -->
+<section class="py-16 bg-dark-surface border-t border-neutral-800" id="privacy">
+<div class="max-w-4xl mx-auto px-4 text-center">
+  <h2 class="text-xl font-semibold text-white mb-3" data-i18n="privacy_h"></h2>
+  <p class="text-neutral-400 text-sm mb-6" data-i18n="privacy_p"></p>
+  <div class="flex flex-wrap justify-center gap-4 text-xs sm:text-sm text-yellow-400/90 font-medium">
+    <a class="hover:text-yellow-300 transition-colors" href="privacy/PRIVACY">English</a><span class="text-neutral-600">•</span>
+    <a class="hover:text-yellow-300 transition-colors" href="privacy/PRIVACY_de">Deutsch</a><span class="text-neutral-600">•</span>
+    <a class="hover:text-yellow-300 transition-colors" href="privacy/PRIVACY_fr">Français</a><span class="text-neutral-600">•</span>
+    <a class="hover:text-yellow-300 transition-colors" href="privacy/PRIVACY_es">Español</a><span class="text-neutral-600">•</span>
+    <a class="hover:text-yellow-300 transition-colors" href="privacy/PRIVACY_uk">Українська</a><span class="text-neutral-600">•</span>
+    <a class="hover:text-yellow-300 transition-colors" href="privacy/PRIVACY_ru">Русский</a><span class="text-neutral-600">•</span>
+    <a class="hover:text-yellow-300 transition-colors" href="privacy/PRIVACY_ja">日本語</a>
+  </div>
+</div>
+</section>
+</main>
+
+<footer class="bg-[#0A0A0A] py-8 border-t border-neutral-900 text-center text-xs text-neutral-500">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-2">
+  <p data-i18n="footer"></p>
+</div>
+</footer>
+
+<script>
+const T = {
+  en: {
+    subtitle: "Real-time point counter",
+    hero_title: 'Carcassonne <span class="text-yellow-400">Scoring</span>',
+    tagline: "Real-time point counter for the legendary tile-laying board game. Put the phone on the table — everyone sees the score.",
+    features_h: "Why players love it",
+    f1t: "Real-time scoring", f1d: "Tap +1 / +10 for knights, monks and farmers — no more paper and pencil.",
+    f2t: "Up to 9 players", f2d: "The no-scroll layout fits 6 player cards on any phone screen.",
+    f3t: "Game history log", f3d: "Every score change is recorded with running totals — settle any dispute.",
+    f4t: "Random first player", f4d: "A fun roulette picks who goes first. Tap the dice anytime.",
+    f5t: "Share results", f5d: "Send the final scoreboard with medals to your group chat.",
+    f6t: "100% offline & private", f6d: "No ads, no accounts, no data collection. 8 languages.",
+    shots_h: "Screenshots",
+    shot1: "Score Tracking", shot2: "Player Setup", shot3: "Score History", shot4: "Settings & Options",
+    support_h: "Support",
+    support_p1: "Questions, bug reports or feature ideas? Email us at ",
+    support_p2: " — we usually reply within a couple of days.",
+    privacy_h: "Privacy Policy", privacy_p: "The app collects no data whatsoever. Full policy:",
+    footer: "© 2026 Oleg Kozlovskyi · Carcassonne is a trademark of its respective owners; this is an unofficial companion app."
+  },
+  de: {
+    subtitle: "Echtzeit-Punktestand",
+    hero_title: 'Carcassonne <span class="text-yellow-400">Punktezähler</span>',
+    tagline: "Echtzeit-Punktezähler für das legendäre Legespiel. Handy auf den Tisch — alle sehen den Punktestand.",
+    features_h: "Darum lieben es Spieler",
+    f1t: "Punkte in Echtzeit", f1d: "Tippen Sie +1 / +10 für Ritter, Mönche und Bauern — nie wieder Zettel und Stift.",
+    f2t: "Bis zu 9 Spieler", f2d: "Das No-Scroll-Layout zeigt 6 Spielerkarten auf jedem Handybildschirm.",
+    f3t: "Spielverlauf", f3d: "Jede Punkteänderung wird mit Zwischenständen protokolliert — jede Diskussion sofort geklärt.",
+    f4t: "Zufälliger Startspieler", f4d: "Ein Roulette bestimmt, wer anfängt. Jederzeit per Würfel-Taste.",
+    f5t: "Ergebnisse teilen", f5d: "Senden Sie die Abschlusstabelle mit Medaillen in Ihren Gruppenchat.",
+    f6t: "100 % offline & privat", f6d: "Keine Werbung, keine Konten, keine Datenerfassung. 8 Sprachen.",
+    shots_h: "Screenshots",
+    shot1: "Punktestand", shot2: "Spieler-Setup", shot3: "Spielverlauf", shot4: "Einstellungen",
+    support_h: "Support",
+    support_p1: "Fragen, Fehlerberichte oder Ideen? Schreiben Sie an ",
+    support_p2: " — wir antworten in der Regel innerhalb weniger Tage.",
+    privacy_h: "Datenschutz", privacy_p: "Die App sammelt keinerlei Daten. Vollständige Richtlinie:",
+    footer: "© 2026 Oleg Kozlovskyi · Carcassonne ist eine Marke der jeweiligen Inhaber; dies ist eine inoffizielle Begleit-App."
+  },
+  fr: {
+    subtitle: "Suivi des points en temps réel",
+    hero_title: '<span class="text-yellow-400">Compteur</span> Carcassonne',
+    tagline: "Compteur de points en temps réel pour le légendaire jeu de tuiles. Posez le téléphone sur la table — tout le monde voit le score.",
+    features_h: "Pourquoi les joueurs l'adorent",
+    f1t: "Score en temps réel", f1d: "Touchez +1 / +10 pour vos chevaliers, moines et paysans — fini le papier et le crayon.",
+    f2t: "Jusqu'à 9 joueurs", f2d: "La mise en page sans défilement affiche 6 cartes joueur sur tout écran.",
+    f3t: "Historique de partie", f3d: "Chaque changement de score est enregistré avec les totaux — plus de litiges.",
+    f4t: "Premier joueur aléatoire", f4d: "Une roulette désigne qui commence. Touchez le dé à tout moment.",
+    f5t: "Partage des résultats", f5d: "Envoyez le tableau final avec médailles dans votre discussion de groupe.",
+    f6t: "100 % hors ligne et privé", f6d: "Sans publicité, sans compte, sans collecte de données. 8 langues.",
+    shots_h: "Captures d'écran",
+    shot1: "Suivi des scores", shot2: "Configuration", shot3: "Historique", shot4: "Réglages",
+    support_h: "Assistance",
+    support_p1: "Questions, bugs ou idées ? Écrivez à ",
+    support_p2: " — nous répondons généralement sous quelques jours.",
+    privacy_h: "Confidentialité", privacy_p: "L'application ne collecte aucune donnée. Politique complète :",
+    footer: "© 2026 Oleg Kozlovskyi · Carcassonne est une marque de ses détenteurs respectifs ; application compagnon non officielle."
+  },
+  es: {
+    subtitle: "Contador en tiempo real",
+    hero_title: '<span class="text-yellow-400">Marcador de</span> Carcassonne',
+    tagline: "Contador de puntos en tiempo real para el legendario juego de losetas. Deja el móvil en la mesa: todos ven la puntuación.",
+    features_h: "Por qué encanta a los jugadores",
+    f1t: "Puntuación en tiempo real", f1d: "Toca +1 / +10 para caballeros, monjes y granjeros: adiós al papel y lápiz.",
+    f2t: "Hasta 9 jugadores", f2d: "El diseño sin desplazamiento muestra 6 tarjetas de jugador en cualquier pantalla.",
+    f3t: "Historial de partida", f3d: "Cada cambio de puntos queda registrado con totales: se acabaron las disputas.",
+    f4t: "Primer jugador aleatorio", f4d: "Una ruleta decide quién empieza. Toca el dado cuando quieras.",
+    f5t: "Comparte resultados", f5d: "Envía el marcador final con medallas a tu chat de grupo.",
+    f6t: "100 % sin conexión y privado", f6d: "Sin anuncios, sin cuentas, sin recopilación de datos. 8 idiomas.",
+    shots_h: "Capturas",
+    shot1: "Puntuación", shot2: "Configuración", shot3: "Historial", shot4: "Ajustes",
+    support_h: "Soporte",
+    support_p1: "¿Preguntas, errores o ideas? Escribe a ",
+    support_p2: " — solemos responder en un par de días.",
+    privacy_h: "Privacidad", privacy_p: "La app no recopila ningún dato. Política completa:",
+    footer: "© 2026 Oleg Kozlovskyi · Carcassonne es una marca de sus respectivos propietarios; app complementaria no oficial."
+  },
+  uk: {
+    subtitle: "Лічильник очок у реальному часі",
+    hero_title: '<span class="text-yellow-400">Рахунок</span> Каркассон',
+    tagline: "Лічильник очок у реальному часі для легендарної настільної гри. Покладіть телефон на стіл — рахунок бачать усі.",
+    features_h: "За що його люблять гравці",
+    f1t: "Рахунок у реальному часі", f1d: "Торкайтеся +1 / +10 за лицарів, ченців і фермерів — жодного паперу й олівця.",
+    f2t: "До 9 гравців", f2d: "Компонування без прокрутки вміщує 6 карток гравців на будь-якому екрані.",
+    f3t: "Історія партії", f3d: "Кожна зміна рахунку записується з підсумками — жодних суперечок.",
+    f4t: "Випадковий перший гравець", f4d: "Рулетка визначає, хто ходить першим. Кубики — будь-якої миті.",
+    f5t: "Діліться результатами", f5d: "Надішліть фінальну таблицю з медалями у груповий чат.",
+    f6t: "100% офлайн і приватно", f6d: "Без реклами, акаунтів і збору даних. 8 мов.",
+    shots_h: "Знімки екрана",
+    shot1: "Рахунок", shot2: "Вибір гравців", shot3: "Історія партії", shot4: "Налаштування",
+    support_h: "Підтримка",
+    support_p1: "Питання, помилки чи ідеї? Пишіть на ",
+    support_p2: " — зазвичай відповідаємо протягом кількох днів.",
+    privacy_h: "Конфіденційність", privacy_p: "Додаток не збирає жодних даних. Повна політика:",
+    footer: "© 2026 Oleg Kozlovskyi · Carcassonne — торговельна марка відповідних власників; це неофіційний додаток-компаньйон."
+  },
+  ru: {
+    subtitle: "Счёт очков в реальном времени",
+    hero_title: 'Каркассон: <span class="text-yellow-400">счётчик очков</span>',
+    tagline: "Счётчик очков в реальном времени для легендарной настольной игры. Положите телефон на стол — счёт видят все.",
+    features_h: "За что его любят игроки",
+    f1t: "Счёт в реальном времени", f1d: "Касайтесь +1 / +10 за рыцарей, монахов и фермеров — никакой бумаги и карандаша.",
+    f2t: "До 9 игроков", f2d: "Компоновка без прокрутки вмещает 6 карточек игроков на любом экране.",
+    f3t: "История партии", f3d: "Каждое изменение счёта записывается с итогами — никаких споров.",
+    f4t: "Случайный первый игрок", f4d: "Рулетка решает, кто ходит первым. Кубики — в любой момент.",
+    f5t: "Делитесь результатами", f5d: "Отправьте финальную таблицу с медалями в групповой чат.",
+    f6t: "100% офлайн и приватно", f6d: "Без рекламы, аккаунтов и сбора данных. 8 языков.",
+    shots_h: "Скриншоты",
+    shot1: "Счёт", shot2: "Выбор игроков", shot3: "История партии", shot4: "Настройки",
+    support_h: "Поддержка",
+    support_p1: "Вопросы, ошибки или идеи? Пишите на ",
+    support_p2: " — обычно отвечаем в течение пары дней.",
+    privacy_h: "Конфиденциальность", privacy_p: "Приложение не собирает никаких данных. Полная политика:",
+    footer: "© 2026 Oleg Kozlovskyi · Carcassonne — торговая марка соответствующих владельцев; это неофициальное приложение-компаньон."
+  },
+  zh: {
+    subtitle: "实时分数追踪",
+    hero_title: '卡卡颂<span class="text-yellow-400">计分器</span>',
+    tagline: "为传奇板块拼放桌游打造的实时计分器。把手机放在桌上，所有玩家都能看到比分。",
+    features_h: "玩家喜爱的理由",
+    f1t: "实时计分", f1d: "为骑士、修道士和农夫轻点 +1 / +10——告别纸笔。",
+    f2t: "最多9名玩家", f2d: "免滚动布局可在任何手机屏幕上显示6张玩家卡片。",
+    f3t: "对局记录", f3d: "每次记分都会连同累计总分记录在案——不再有争议。",
+    f4t: "随机先手玩家", f4d: "轮盘决定谁先开始。随时点击骰子按钮。",
+    f5t: "分享战绩", f5d: "将带奖牌的最终榜单发送到群聊。",
+    f6t: "完全离线·保护隐私", f6d: "无广告、无账号、不收集数据。支持8种语言。",
+    shots_h: "截图",
+    shot1: "计分", shot2: "玩家设置", shot3: "对局记录", shot4: "设置",
+    support_h: "支持",
+    support_p1: "问题、错误报告或建议？请发邮件至 ",
+    support_p2: "，我们通常会在几天内回复。",
+    privacy_h: "隐私政策", privacy_p: "本应用不收集任何数据。完整政策：",
+    footer: "© 2026 Oleg Kozlovskyi · Carcassonne 是其相应所有者的商标；本应用为非官方伴侣应用。"
+  },
+  ja: {
+    subtitle: "リアルタイムスコア記録",
+    hero_title: 'カルカソンヌ<span class="text-yellow-400">得点板</span>',
+    tagline: "伝説のタイル配置ボードゲームのためのリアルタイム得点計算アプリ。テーブルに置けば全員がスコアを確認できます。",
+    features_h: "プレイヤーに愛される理由",
+    f1t: "リアルタイム採点", f1d: "騎士・修道士・農夫の得点を +1 / +10 でタップ。紙と鉛筆はもう不要。",
+    f2t: "最大9人対応", f2d: "スクロール不要のレイアウトで、どの画面でも6人分のカードを表示。",
+    f3t: "対局履歴", f3d: "得点の変化を累計とともに記録。もめごとはすぐ解決。",
+    f4t: "先手をランダムに選出", f4d: "ルーレットが先手を決定。サイコロボタンでいつでも実行。",
+    f5t: "結果をシェア", f5d: "メダル付きの最終スコアをグループチャットへ送信。",
+    f6t: "完全オフライン&プライベート", f6d: "広告なし・アカウント不要・データ収集なし。8言語対応。",
+    shots_h: "スクリーンショット",
+    shot1: "スコア記録", shot2: "プレイヤー設定", shot3: "対局履歴", shot4: "設定",
+    support_h: "サポート",
+    support_p1: "ご質問・不具合報告・ご意見は ",
+    support_p2: " まで。通常数日以内に返信します。",
+    privacy_h: "プライバシーポリシー", privacy_p: "本アプリはいかなるデータも収集しません。全文はこちら：",
+    footer: "© 2026 Oleg Kozlovskyi · Carcassonne は各権利者の商標です。本アプリは非公式のコンパニオンアプリです。"
+  }
+};
+
+function applyLang(lang) {
+  const d = T[lang] || T.en;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = d[el.dataset.i18n];
+    if (v) el.textContent = v;
+  });
+  document.getElementById('heroTitle').innerHTML = d.hero_title; // trusted local dictionary only
+  document.querySelectorAll('img[data-shot]').forEach(img => {
+    img.src = 'assets/shots/' + lang + '/' + img.dataset.shot + '.png';
+  });
+  document.querySelectorAll('.lang-link').forEach(el => el.classList.toggle('active', el.dataset.lang === lang));
+  document.title = 'Carcassonne Scoring — ' + d.subtitle;
+  try { localStorage.setItem('lang', lang); } catch (e) {}
+}
+
+document.getElementById('langNav').addEventListener('click', e => {
+  const lang = e.target.dataset && e.target.dataset.lang;
+  if (lang) applyLang(lang);
+});
+
+let initial = null;
+try { initial = localStorage.getItem('lang'); } catch (e) {}
+if (!initial || !T[initial]) {
+  const nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+  initial = T[nav] ? nav : 'en';
+}
+applyLang(initial);
+</script>
+
+</body>
+</html>
