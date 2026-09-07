@@ -52,7 +52,7 @@
   </div>
   <h1 id="heroTitle" class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6"></h1>
   <p class="text-lg sm:text-xl text-neutral-300 max-w-2xl mb-10 leading-relaxed font-light" data-i18n="tagline"></p>
-  <a class="inline-block transition-transform hover:scale-105 active:scale-95 duration-200" href="https://apps.apple.com/app/id6763508490" aria-label="Download on the App Store">
+  <a class="inline-block transition-transform hover:scale-105 active:scale-95 duration-200" href="https://apps.apple.com/app/apple-store/id6763508490?pt=128781731&amp;ct=landing_hero&amp;mt=8" aria-label="Download on the App Store">
     <img class="h-14 sm:h-16 w-auto" src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
   </a>
 </div>
@@ -151,7 +151,10 @@
 </main>
 
 <footer class="bg-[#0A0A0A] py-8 border-t border-neutral-900 text-center text-xs text-neutral-500">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-2">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+  <a class="inline-block transition-transform hover:scale-105 active:scale-95 duration-200" href="https://apps.apple.com/app/apple-store/id6763508490?pt=128781731&amp;ct=landing_footer&amp;mt=8" aria-label="Download on the App Store">
+    <img class="h-10 w-auto" src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+  </a>
   <p data-i18n="footer"></p>
 </div>
 </footer>
@@ -340,7 +343,22 @@ if (!initial || !T[initial]) {
   initial = T[nav] ? nav : 'en';
 }
 applyLang(initial);
+
+// B-43: carry the inbound utm_source into the App Store campaign token (ct),
+// otherwise Apple's last-touch attribution credits the landing, not the channel.
+(function () {
+  var src = new URLSearchParams(location.search).get('utm_source');
+  if (!src) return; // direct visit — keep default landing_hero/landing_footer
+  var token = 'landing_' + src.toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 32);
+  document.querySelectorAll('a[href*="apps.apple.com"]').forEach(function (a) {
+    var u = new URL(a.href);
+    u.searchParams.set('ct', token);
+    a.href = u.toString();
+  });
+})();
 </script>
+
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "950712c0a59347da9dcff8ad5ebe154a"}'></script><!-- End Cloudflare Web Analytics -->
 
 </body>
 </html>
