@@ -13,6 +13,10 @@
   <img src="assets/Badge/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg" height="50" alt="Download on the App Store">
 </a>
 
+<a href="https://ko-fi.com/okdesignstudio">
+  <img src="https://img.shields.io/badge/Ko--fi-Support_the_developer-FF5E5B?logo=kofi&logoColor=white" height="28" alt="Support the developer on Ko-fi">
+</a>
+
 </div>
 
 ---
