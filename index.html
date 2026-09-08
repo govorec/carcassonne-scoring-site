@@ -53,7 +53,7 @@
   <h1 id="heroTitle" class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6"></h1>
   <p class="text-lg sm:text-xl text-neutral-300 max-w-2xl mb-10 leading-relaxed font-light" data-i18n="tagline"></p>
   <a class="inline-block transition-transform hover:scale-105 active:scale-95 duration-200" href="https://apps.apple.com/app/apple-store/id6763508490?pt=128781731&amp;ct=landing_hero&amp;mt=8" data-goatcounter-click="click-appstore-hero" aria-label="Download on the App Store">
-    <img class="h-14 sm:h-16 w-auto" src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+    <img data-badge class="h-14 sm:h-16 w-auto" src="assets/Badge/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg" alt="Download on the App Store">
   </a>
 </div>
 </section>
@@ -153,7 +153,7 @@
 <footer class="bg-[#0A0A0A] py-8 border-t border-neutral-900 text-center text-xs text-neutral-500">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
   <a class="inline-block transition-transform hover:scale-105 active:scale-95 duration-200" href="https://apps.apple.com/app/apple-store/id6763508490?pt=128781731&amp;ct=landing_footer&amp;mt=8" data-goatcounter-click="click-appstore-footer" aria-label="Download on the App Store">
-    <img class="h-10 w-auto" src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+    <img data-badge class="h-10 w-auto" src="assets/Badge/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg" alt="Download on the App Store">
   </a>
   <p data-i18n="footer"></p>
 </div>
@@ -315,6 +315,18 @@ const T = {
   }
 };
 
+// Official Apple badge per locale (assets/Badge/, filenames as downloaded from Apple)
+const BADGES = {
+  en: 'Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg',
+  de: 'Download_on_the_App_Store_Badge_DE_RGB_blk_092917.svg',
+  fr: 'Download_on_the_App_Store_Badge_FR_RGB_blk_100517.svg',
+  es: 'Download_on_the_App_Store_Badge_ES_RGB_blk_100217.svg',
+  uk: 'Download_on_the_App_Store_Badge_UA_blk_082124.svg',
+  ru: 'Download_on_the_App_Store_Badge_RU_RGB_blk_100317.svg',
+  zh: 'Download_on_the_App_Store_Badge_CNSC_RGB_blk_092917.svg',
+  ja: 'Download_on_the_App_Store_Badge_JP_RGB_blk_100317.svg'
+};
+
 function applyLang(lang) {
   const d = T[lang] || T.en;
   document.documentElement.lang = lang;
@@ -325,6 +337,9 @@ function applyLang(lang) {
   document.getElementById('heroTitle').innerHTML = d.hero_title; // trusted local dictionary only
   document.querySelectorAll('img[data-shot]').forEach(img => {
     img.src = 'assets/shots/' + lang + '/' + img.dataset.shot + '.png';
+  });
+  document.querySelectorAll('img[data-badge]').forEach(img => {
+    img.src = 'assets/Badge/' + (BADGES[lang] || BADGES.en);
   });
   document.querySelectorAll('.lang-link').forEach(el => el.classList.toggle('active', el.dataset.lang === lang));
   document.title = 'Carcassonne Scoring — ' + d.subtitle;
