@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://govorec.github.io/carcassonne-scoring-site/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url><loc>https://govorec.github.io/carcassonne-scoring-site/privacy/PRIVACY</loc><priority>0.3</priority></url>
+  <url><loc>https://govorec.github.io/carcassonne-scoring-site/privacy/PRIVACY_de</loc><priority>0.3</priority></url>
+  <url><loc>https://govorec.github.io/carcassonne-scoring-site/privacy/PRIVACY_fr</loc><priority>0.3</priority></url>
+  <url><loc>https://govorec.github.io/carcassonne-scoring-site/privacy/PRIVACY_es</loc><priority>0.3</priority></url>
+  <url><loc>https://govorec.github.io/carcassonne-scoring-site/privacy/PRIVACY_uk</loc><priority>0.3</priority></url>
+  <url><loc>https://govorec.github.io/carcassonne-scoring-site/privacy/PRIVACY_ru</loc><priority>0.3</priority></url>
+  <url><loc>https://govorec.github.io/carcassonne-scoring-site/privacy/PRIVACY_ja</loc><priority>0.3</priority></url>
+</urlset>
