@@ -60,7 +60,11 @@
     <img alt="Carcassonne Scoring icon" class="w-10 h-10 rounded-xl shadow-md border border-yellow-500/30" src="assets/icon.png"/>
     <span class="font-bold text-lg sm:text-xl tracking-tight text-white">Carcassonne Scoring</span>
   </div>
-  <nav id="langNav" class="flex items-center flex-wrap justify-end gap-x-2 gap-y-1 text-xs sm:text-sm text-neutral-400" aria-label="Language">
+  <div class="flex items-center gap-4">
+    <a href="#donate" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-yellow-500/40 text-yellow-400 text-xs sm:text-sm font-medium hover:bg-yellow-400/10 transition-colors" data-goatcounter-click="click-donate-header">
+      <span aria-hidden="true">☕</span><span class="hidden sm:inline" data-i18n="donate_nav"></span>
+    </a>
+    <nav id="langNav" class="flex items-center flex-wrap justify-end gap-x-2 gap-y-1 text-xs sm:text-sm text-neutral-400" aria-label="Language">
     <span class="lang-link" data-lang="en" data-goatcounter-click="click-lang-en">EN</span><span>/</span>
     <span class="lang-link" data-lang="de" data-goatcounter-click="click-lang-de">DE</span><span>/</span>
     <span class="lang-link" data-lang="fr" data-goatcounter-click="click-lang-fr">FR</span><span>/</span>
@@ -70,6 +74,7 @@
     <span class="lang-link" data-lang="zh" data-goatcounter-click="click-lang-zh">中文</span><span>/</span>
     <span class="lang-link" data-lang="ja" data-goatcounter-click="click-lang-ja">日本語</span>
   </nav>
+  </div>
 </div>
 </header>
 
@@ -225,6 +230,7 @@ const T = {
     support_p1: "Questions, bug reports or feature ideas? Email us at ",
     support_p2: " — we usually reply within a couple of days.",
     donate_h: "Support the developer",
+    donate_nav: "Support",
     donate_p: "Carcassonne Scoring is free, has no ads and collects no data — it's built by one person. If it saved your game night, you can buy me a coffee.",
     donate_btn: "Buy me a coffee",
     privacy_h: "Privacy Policy", privacy_p: "The app collects no data whatsoever. Full policy:",
@@ -248,6 +254,7 @@ const T = {
     support_p1: "Fragen, Fehlerberichte oder Ideen? Schreiben Sie an ",
     support_p2: " — wir antworten in der Regel innerhalb weniger Tage.",
     donate_h: "Unterstützen Sie den Entwickler",
+    donate_nav: "Unterstützen",
     donate_p: "Carcassonne Punktezähler ist kostenlos, werbefrei und sammelt keine Daten — entwickelt von einer Person. Wenn die App Ihren Spieleabend gerettet hat, spendieren Sie mir gern einen Kaffee.",
     donate_btn: "Einen Kaffee spendieren",
     privacy_h: "Datenschutz", privacy_p: "Die App sammelt keinerlei Daten. Vollständige Richtlinie:",
@@ -271,6 +278,7 @@ const T = {
     support_p1: "Questions, bugs ou idées ? Écrivez à ",
     support_p2: " — nous répondons généralement sous quelques jours.",
     donate_h: "Soutenir le développeur",
+    donate_nav: "Soutenir",
     donate_p: "Compteur Carcassonne est gratuite, sans publicité et ne collecte aucune donnée — développée par une seule personne. Si elle a sauvé votre soirée jeux, offrez-moi un café.",
     donate_btn: "M'offrir un café",
     privacy_h: "Confidentialité", privacy_p: "L'application ne collecte aucune donnée. Politique complète :",
@@ -294,6 +302,7 @@ const T = {
     support_p1: "¿Preguntas, errores o ideas? Escribe a ",
     support_p2: " — solemos responder en un par de días.",
     donate_h: "Apoya al desarrollador",
+    donate_nav: "Apoyar",
     donate_p: "Marcador de Carcassonne es gratuita, sin anuncios y no recopila datos: la desarrolla una sola persona. Si salvó tu noche de juegos, invítame a un café.",
     donate_btn: "Invítame a un café",
     privacy_h: "Privacidad", privacy_p: "La app no recopila ningún dato. Política completa:",
@@ -317,6 +326,7 @@ const T = {
     support_p1: "Питання, помилки чи ідеї? Пишіть на ",
     support_p2: " — зазвичай відповідаємо протягом кількох днів.",
     donate_h: "Підтримати розробника",
+    donate_nav: "Підтримати",
     donate_p: "Рахунок Каркассон — безкоштовний, без реклами та не збирає даних; його робить одна людина. Якщо він врятував ваш ігровий вечір — пригостіть мене кавою.",
     donate_btn: "Пригостити кавою",
     privacy_h: "Конфіденційність", privacy_p: "Додаток не збирає жодних даних. Повна політика:",
@@ -340,6 +350,7 @@ const T = {
     support_p1: "Вопросы, ошибки или идеи? Пишите на ",
     support_p2: " — обычно отвечаем в течение пары дней.",
     donate_h: "Поддержать разработчика",
+    donate_nav: "Поддержать",
     donate_p: "Каркассон Счётчик — бесплатное приложение без рекламы и сбора данных; его делает один человек. Если оно выручило вас на игровом вечере — угостите меня кофе.",
     donate_btn: "Угостить кофе",
     privacy_h: "Конфиденциальность", privacy_p: "Приложение не собирает никаких данных. Полная политика:",
@@ -363,6 +374,7 @@ const T = {
     support_p1: "问题、错误报告或建议？请发邮件至 ",
     support_p2: "，我们通常会在几天内回复。",
     donate_h: "支持开发者",
+    donate_nav: "支持",
     donate_p: "卡卡颂计分器完全免费、无广告、不收集数据，由一人独立开发。如果它拯救了你的桌游之夜，欢迎请我喝杯咖啡。",
     donate_btn: "请我喝咖啡",
     privacy_h: "隐私政策", privacy_p: "本应用不收集任何数据。完整政策：",
@@ -386,6 +398,7 @@ const T = {
     support_p1: "ご質問・不具合報告・ご意見は ",
     support_p2: " まで。通常数日以内に返信します。",
     donate_h: "開発者を応援する",
+    donate_nav: "応援",
     donate_p: "カルカソンヌ得点板は無料・広告なし・データ収集なし。ひとりで開発しています。ゲームナイトのお役に立てたなら、コーヒーをおごってください。",
     donate_btn: "コーヒーをおごる",
     privacy_h: "プライバシーポリシー", privacy_p: "本アプリはいかなるデータも収集しません。全文はこちら：",
